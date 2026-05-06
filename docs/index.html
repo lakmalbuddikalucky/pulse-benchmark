@@ -1,0 +1,2940 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ICU Time-Series Prediction Benchmark</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji",
+          "Segoe UI Emoji";
+        background: #ffffff;
+        min-height: 100vh;
+        color: #2c2c2c;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e5e7eb;
+      }
+
+      .header h1 {
+        font-size: 2.2em;
+        background: #111111;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: initial;
+        color: #111111;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .pulse-logo {
+        height: 60px;
+        width: auto;
+      }
+
+      .gold-cup {
+        color: #ffd700;
+        font-size: 1.2em;
+        margin-left: 8px;
+        display: inline-block;
+        animation: sparkle 2s ease-in-out infinite;
+      }
+
+      @keyframes sparkle {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .header p {
+        font-size: 1.2em;
+        color: #5a5a5a;
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .control-group label {
+        font-weight: 600;
+        color: #444;
+        font-size: 0.9em;
+      }
+
+      select,
+      input {
+        padding: 8px 12px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        min-width: 120px;
+      }
+
+      select:focus,
+      input:focus {
+        outline: none;
+        border-color: #111111;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Unify dropdown arrows: custom chevron for all <select> controls */
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 28px; /* room for chevron */
+      }
+
+      .dashboard {
+        display: grid;
+        gap: 25px;
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 1px solid #e5e7eb;
+        overflow: visible; /* prevent tooltip clipping */
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .card h3 {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+        color: #111111;
+        text-align: left;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eceff1;
+        font-weight: 600;
+      }
+
+      .chart-container {
+        position: relative;
+        height: 400px;
+        margin-bottom: 20px;
+      }
+
+      .table-container {
+        overflow-x: auto; /* keep table bounded horizontally with scroll */
+        overflow-y: visible; /* allow vertical tooltip overflow */
+        margin-top: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        border-radius: 10px;
+        overflow: visible; /* allow tooltips inside cells to overflow */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+
+      th,
+      td {
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #ffffff;
+        color: #111111;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+      }
+
+      /* Sorting arrows */
+      th::after {
+        content: "⇅"; /* indicates sortable */
+        margin-left: 6px;
+        font-size: 10px;
+        color: #cbd5e1;
+        opacity: 0.9;
+      }
+      th.sorted-asc::after {
+        content: "▲";
+        color: #111111;
+      }
+      th.sorted-desc::after {
+        content: "▼";
+        color: #111111;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      .metric-value {
+        font-weight: 600;
+        padding: 0;
+        border-radius: 0;
+        display: inline;
+        min-width: 0;
+        text-align: left;
+        background: none;
+        color: inherit;
+        font-size: 12px; /* smaller numbers in the table */
+      }
+
+      .metric-high,
+      .metric-medium,
+      .metric-low {
+        background: none;
+        color: inherit;
+      }
+
+      .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        background: #111111;
+        color: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .stat-value {
+        font-size: 2em;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      .model-type-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .llm-badge {
+        background: #111111;
+        color: #ffffff;
+      }
+
+      .baseline-badge {
+        background: #e0e0e0;
+        color: #111111;
+      }
+
+      .prompting-approach-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 500;
+        text-transform: capitalize;
+        letter-spacing: 0.3px;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .approach-sarvari {
+        background: #222222;
+        color: #ffffff;
+      }
+
+      .approach-zhu {
+        background: #444444;
+        color: #ffffff;
+      }
+
+      .approach-hybrid {
+        background: #666666;
+        color: #ffffff;
+      }
+
+      .approach-default {
+        background: #bbbbbb;
+        color: #111111;
+      }
+
+      .best-approach-indicator {
+        color: #111111;
+        font-size: 1.1em;
+        margin-right: 8px;
+        display: inline-block;
+        animation: none;
+      }
+
+      .approach-cell {
+        position: relative;
+      }
+
+      .model-name-cell {
+        position: relative;
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        padding-left: 0 !important;
+      }
+
+      .model-name-cell.llm-type {
+        background: none;
+        border-left: none;
+      }
+
+      .model-name-cell.baseline-type {
+        background: none;
+        border-left: none;
+      }
+
+      .model-display-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        padding-left: 12px;
+      }
+
+      .model-main-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .llm-indicator {
+        background: #111111;
+      }
+
+      .baseline-indicator {
+        background: #cfcfcf;
+      }
+
+      .model-with-approach {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        width: 100%;
+      }
+
+      .model-name {
+        font-weight: 600;
+        color: #2c2c2c;
+        margin: 0;
+      }
+
+      .approach-in-model {
+        font-size: 0.75em;
+        color: #666;
+        font-style: italic;
+        margin-left: 28px; /* Align with model name after dot and logo */
+      }
+
+      /* Custom dropdown for model filter */
+      .model-filter-dropdown {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        min-width: 250px;
+      }
+
+      .model-filter-button {
+        width: 100%;
+        padding: 8px 12px;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        min-width: 120px;
+        /* Use same dropdown arrow as native selects */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 36px; /* reserve space for chevron */
+      }
+
+      .model-filter-button:hover {
+        border-color: #111111;
+      }
+
+      .model-filter-button:focus {
+        outline: none;
+        border-color: #111111;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .model-filter-arrow {
+        display: none;
+      }
+
+      .model-filter-dropdown.open .model-filter-arrow {
+        transform: rotate(180deg);
+      }
+
+      .model-filter-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        max-height: 250px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+        min-width: 250px;
+      }
+
+      .model-filter-dropdown.open .model-filter-options {
+        display: block;
+      }
+
+      .model-filter-option {
+        padding: 10px 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background-color 0.2s;
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      .model-filter-option:hover {
+        background: #f5f5f5;
+      }
+
+      .model-filter-option.selected {
+        background: #efefef;
+        color: #111111;
+      }
+
+      .model-filter-option.all-models {
+        border-bottom: 2px solid #e5e7eb;
+        font-weight: 600;
+        background: #fafafa;
+      }
+
+      .model-filter-option.all-models.selected {
+        background: #efefef;
+      }
+
+      .model-logo-small {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        flex-shrink: 0;
+        vertical-align: middle;
+      }
+
+      .model-logo-table {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 50px;
+        font-size: 1.2em;
+        color: #5a5a5a;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 40px;
+        color: #777;
+        font-style: italic;
+      }
+
+      /* Tab Styles */
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        background: transparent;
+      }
+
+      .tab-button {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        padding: 8px 14px;
+        cursor: pointer;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #111111;
+        font-size: 12px;
+      }
+
+      .tab-button.active {
+        background: #111111;
+        color: #ffffff;
+        border-color: #111111;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+
+      .tab-button:hover:not(.active) {
+        background: #f5f5f5;
+        color: #111111;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Info icon styles */
+      .info-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: #111111;
+        color: #ffffff;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 16px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 8px;
+        cursor: help;
+        position: relative;
+        vertical-align: middle;
+      }
+
+      .info-icon:hover {
+        background: #333333;
+      }
+
+      .info-tooltip {
+        visibility: hidden;
+        width: 360px; /* wider for approach descriptions */
+        background-color: #2c2c2c;
+        color: #ffffff;
+        text-align: left;
+        border-radius: 8px;
+        padding: 12px;
+        position: absolute;
+        z-index: 3000; /* ensure above tables/containers */
+        bottom: 125%;
+        left: 50%;
+        margin-left: -180px; /* center for 360px width */
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+        line-height: 1.4;
+        box-shadow: 0 4px 12px rgba(66, 66, 66, 0.15);
+      }
+
+      .info-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #2c2c2c transparent transparent transparent;
+      }
+
+      .info-icon:hover .info-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .control-group-with-info {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .control-group-with-info label {
+        margin: 0;
+      }
+
+      /* Show info tooltip when hovering the approach label */
+      .approach-with-tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: help;
+      }
+      .approach-with-tooltip .info-tooltip {
+        top: 50%;
+        left: calc(100% + 10px); /* place to the right of the approach */
+        bottom: auto;
+        margin-left: 0;
+        transform: translateY(-50%);
+        width: 320px; /* slightly narrower to reduce horizontal overflow */
+        max-width: 50vw; /* cap on small screens */
+      }
+      .approach-with-tooltip .info-tooltip::after {
+        top: 50%;
+        left: -5px; /* arrow on the left side */
+        margin-left: 0;
+        transform: translateY(-50%);
+        border-color: transparent #2c2c2c transparent transparent;
+      }
+      .approach-with-tooltip:hover .info-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard {
+          grid-template-columns: 1fr;
+        }
+
+        .controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .control-group {
+          align-items: stretch;
+        }
+
+        .header-content {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .header h1 {
+          font-size: 2em;
+          text-align: center;
+        }
+
+        .pulse-logo {
+          height: 40px;
+        }
+
+        .tabs {
+          flex-direction: column;
+        }
+
+        .tab-button {
+          border-radius: 10px !important;
+          margin-bottom: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-content">
+          <img src="logos/pulse_logo.svg" alt="PULSE Logo" class="pulse-logo" />
+          <img src="logos/eth_logo.svg" alt="ETH Logo" class="pulse-logo" />
+          <img src="logos/BMDS_logo.png" alt="BMDS Logo" class="pulse-logo" />
+          <h1>ICU Time-Series Prediction Benchmark</h1>
+        </div>
+        <p>
+          Comprehensive comparison of LLMs and baseline models on ICU prediction
+          tasks
+        </p>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+          <button class="tab-button active" onclick="switchTab('overall')">
+            Overall
+          </button>
+          <button class="tab-button" onclick="switchTab('aki')">
+            Acute Kidney Injury
+          </button>
+          <button class="tab-button" onclick="switchTab('mortality')">
+            Mortality
+          </button>
+          <button class="tab-button" onclick="switchTab('sepsis')">
+            Sepsis
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Contents -->
+      <div id="overall-tab" class="tab-content active">
+        <!-- Filters -->
+        <div class="header">
+          <h2>
+            Overall Performance Across All Tasks
+            <span class="info-icon"
+              >i
+              <span class="info-tooltip">
+                Aggregates performance across all tasks and datasets. For LLMs,
+                multiple prompting approaches may be evaluated and the best
+                approach per model can be shown. PULSE Score is a composite
+                indicator; other metrics are averaged.
+              </span>
+            </span>
+          </h2>
+          <div class="controls">
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Type</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter models by type: LLMs (Large Language Models) or
+                    traditional baseline models (CNN, LSTM, XGBoost, etc.)</span
+                  >
+                </span>
+              </div>
+              <select id="overallModelTypeFilter">
+                <option value="all">All Models</option>
+                <option value="llm">LLMs Only</option>
+                <option value="baseline">Baselines Only</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Primary Metric</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select the primary metric for sorting and evaluation. AUROC
+                    and AUPRC are most commonly used for medical prediction
+                    tasks. Note: MCC values are normalized to 0-1 range.</span
+                  >
+                </span>
+              </div>
+              <select id="overallPrimaryMetric">
+                <option value="auroc" selected>AUROC</option>
+                <option value="auprc">AUPRC</option>
+                <option value="normalized_auprc">Normalized AUPRC</option>
+                <option value="mcc">MCC</option>
+                <option value="specificity">Specificity</option>
+                <option value="f1_score">F1 Score</option>
+                <option value="accuracy">Accuracy</option>
+                <option value="balanced_accuracy">Balanced Accuracy</option>
+                <option value="precision">Precision</option>
+                <option value="recall">Recall</option>
+                <option value="kappa">Kappa</option>
+                <option value="minpse">MinPSE</option>
+                <option value="task_dataset_score">PULSE Score</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Show Approaches</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip">
+                    Controls how prompting approaches are displayed for LLMs.
+                    "Best Only" keeps the top approach per model based on the
+                    selected primary metric. "All Approaches" lists every tested
+                    approach. Examples include: Zero Shot, One Shot, Few Shot,
+                    Chain-of-Thought, Hybrid/Collaborative Agents, Clinical
+                    Workflow, and Categorization Summary.
+                  </span>
+                </span>
+              </div>
+              <select id="overallShowApproaches">
+                <option value="best">Best Only</option>
+                <option value="all">All Approaches</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Filter</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select specific models to display. You can choose
+                    individual models or view all models at once.</span
+                  >
+                </span>
+              </div>
+              <div
+                class="model-filter-dropdown"
+                id="overallModelFilterDropdown"
+              >
+                <div
+                  class="model-filter-button"
+                  onclick="toggleModelFilter('overall')"
+                >
+                  <span id="overallModelFilterText">All Models</span>
+                  <span class="model-filter-arrow">˅</span>
+                </div>
+                <div
+                  class="model-filter-options"
+                  id="overallModelFilterOptions"
+                >
+                  <!-- Options will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="card" style="margin-bottom: 25px">
+          <h3>Overall Model Performance Comparison</h3>
+          <div class="chart-container">
+            <canvas id="overallPerformanceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Results Table (Full Width) -->
+        <div class="card">
+          <h3>Overall Detailed Results Table</h3>
+          <div class="table-container">
+            <table id="overallResultsTable">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>PULSE Score</th>
+                  <th class="sorted-desc">AUROC</th>
+                  <th>AUPRC</th>
+                  <th>MCC</th>
+                  <th>Norm AUPRC</th>
+                  <th>Specificity</th>
+                  <th>F1 Score</th>
+                  <th>Accuracy</th>
+                  <th>Bal Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>Kappa</th>
+                  <th>MinPSE</th>
+                </tr>
+              </thead>
+              <tbody id="overallResultsTableBody">
+                <tr>
+                  <td colspan="14" class="loading">
+                    Loading overall results...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="aki-tab" class="tab-content">
+        <!-- Filters -->
+        <div class="header">
+          <h2>
+            Acute Kidney Injury (AKI) Prediction
+            <span class="info-icon"
+              >i
+              <span class="info-tooltip">
+                Predict onset or presence of acute kidney injury within a
+                defined horizon, typically using KDIGO-based criteria from each
+                dataset. We can adjust this text to your exact label definition
+                and horizon.
+              </span>
+            </span>
+          </h2>
+          <div class="controls">
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Dataset</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter results by specific ICU dataset: HiRID (Swiss), eICU
+                    (US multi-center), or MIMIC-IV (US single-center).</span
+                  >
+                </span>
+              </div>
+              <select id="akiDatasetFilter">
+                <option value="all">All Datasets</option>
+                <option value="hirid">HiRID</option>
+                <option value="eicu">eICU</option>
+                <option value="miiv">MIMIC-IV</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Type</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter models by type: LLMs (Large Language Models) or
+                    traditional baseline models (CNN, LSTM, XGBoost, etc.)</span
+                  >
+                </span>
+              </div>
+              <select id="akiModelTypeFilter">
+                <option value="all">All Models</option>
+                <option value="llm">LLMs Only</option>
+                <option value="baseline">Baselines Only</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Show Approaches</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip">
+                    Controls how prompting approaches are displayed for LLMs.
+                    "Best Only" keeps the top approach per model based on the
+                    selected primary metric. "All Approaches" lists every tested
+                    approach. Examples include: Zero Shot, One Shot, Few Shot,
+                    Chain-of-Thought, Hybrid/Collaborative Agents, Clinical
+                    Workflow, and Categorization Summary.
+                  </span>
+                </span>
+              </div>
+              <select id="akiShowApproaches">
+                <option value="best">Best Only</option>
+                <option value="all">All Approaches</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Primary Metric</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select the primary metric for sorting and evaluation. AUROC
+                    and AUPRC are most commonly used for medical prediction
+                    tasks. Note: MCC values are normalized to 0-1 range.</span
+                  >
+                </span>
+              </div>
+              <select id="akiPrimaryMetric">
+                <option value="auroc" selected>AUROC</option>
+                <option value="auprc">AUPRC</option>
+                <option value="normalized_auprc">Normalized AUPRC</option>
+                <option value="mcc">MCC</option>
+                <option value="specificity">Specificity</option>
+                <option value="f1_score">F1 Score</option>
+                <option value="accuracy">Accuracy</option>
+                <option value="balanced_accuracy">Balanced Accuracy</option>
+                <option value="precision">Precision</option>
+                <option value="recall">Recall</option>
+                <option value="kappa">Kappa</option>
+                <option value="minpse">MinPSE</option>
+                <option value="task_dataset_score">PULSE Score</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Filter</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select specific models to display. You can choose
+                    individual models or view all models at once.</span
+                  >
+                </span>
+              </div>
+              <div class="model-filter-dropdown" id="akiModelFilterDropdown">
+                <div
+                  class="model-filter-button"
+                  onclick="toggleModelFilter('aki')"
+                >
+                  <span id="akiModelFilterText">All Models</span>
+                  <span class="model-filter-arrow">˅</span>
+                </div>
+                <div class="model-filter-options" id="akiModelFilterOptions">
+                  <!-- Options will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="card" style="margin-bottom: 25px">
+          <h3>AKI Model Performance Comparison</h3>
+          <div class="chart-container">
+            <canvas id="akiPerformanceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Results Table (Full Width) -->
+        <div class="card">
+          <h3>AKI Detailed Results Table</h3>
+          <div class="table-container">
+            <table id="akiResultsTable">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Dataset</th>
+                  <th>PULSE Score</th>
+                  <th class="sorted-desc">AUROC</th>
+                  <th>AUPRC</th>
+                  <th>MCC</th>
+                  <th>Norm AUPRC</th>
+                  <th>Specificity</th>
+                  <th>F1 Score</th>
+                  <th>Accuracy</th>
+                  <th>Bal Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>Kappa</th>
+                  <th>MinPSE</th>
+                </tr>
+              </thead>
+              <tbody id="akiResultsTableBody">
+                <tr>
+                  <td colspan="15" class="loading">Loading AKI results...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="mortality-tab" class="tab-content">
+        <!-- Filters -->
+        <div class="header">
+          <h2>
+            Mortality Prediction
+            <span class="info-icon"
+              >i
+              <span class="info-tooltip">
+                Predict in-hospital or in-ICU mortality by end of stay or within
+                a defined horizon, depending on dataset labeling. Provide your
+                preferred definition and horizon if different.
+              </span>
+            </span>
+          </h2>
+          <div class="controls">
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Dataset</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter results by specific ICU dataset: HiRID (Swiss), eICU
+                    (US multi-center), or MIMIC-IV (US single-center).</span
+                  >
+                </span>
+              </div>
+              <select id="mortalityDatasetFilter">
+                <option value="all">All Datasets</option>
+                <option value="hirid">HiRID</option>
+                <option value="eicu">eICU</option>
+                <option value="miiv">MIMIC-IV</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Type</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter models by type: LLMs (Large Language Models) or
+                    traditional baseline models (CNN, LSTM, XGBoost, etc.)</span
+                  >
+                </span>
+              </div>
+              <select id="mortalityModelTypeFilter">
+                <option value="all">All Models</option>
+                <option value="llm">LLMs Only</option>
+                <option value="baseline">Baselines Only</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Show Approaches</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip">
+                    Controls how prompting approaches are displayed for LLMs.
+                    "Best Only" keeps the top approach per model based on the
+                    selected primary metric. "All Approaches" lists every tested
+                    approach. Examples include: Zero Shot, One Shot, Few Shot,
+                    Chain-of-Thought, Hybrid/Collaborative Agents, Clinical
+                    Workflow, and Categorization Summary.
+                  </span>
+                </span>
+              </div>
+              <select id="mortalityShowApproaches">
+                <option value="best">Best Only</option>
+                <option value="all">All Approaches</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Primary Metric</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select the primary metric for sorting and evaluation. AUROC
+                    and AUPRC are most commonly used for medical prediction
+                    tasks. Note: MCC values are normalized to 0-1 range.</span
+                  >
+                </span>
+              </div>
+              <select id="mortalityPrimaryMetric">
+                <option value="auroc" selected>AUROC</option>
+                <option value="auprc">AUPRC</option>
+                <option value="normalized_auprc">Normalized AUPRC</option>
+                <option value="mcc">MCC</option>
+                <option value="specificity">Specificity</option>
+                <option value="f1_score">F1 Score</option>
+                <option value="accuracy">Accuracy</option>
+                <option value="balanced_accuracy">Balanced Accuracy</option>
+                <option value="precision">Precision</option>
+                <option value="recall">Recall</option>
+                <option value="kappa">Kappa</option>
+                <option value="minpse">MinPSE</option>
+                <option value="task_dataset_score">PULSE Score</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Filter</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select specific models to display. You can choose
+                    individual models or view all models at once.</span
+                  >
+                </span>
+              </div>
+              <div
+                class="model-filter-dropdown"
+                id="mortalityModelFilterDropdown"
+              >
+                <div
+                  class="model-filter-button"
+                  onclick="toggleModelFilter('mortality')"
+                >
+                  <span id="mortalityModelFilterText">All Models</span>
+                  <span class="model-filter-arrow">˅</span>
+                </div>
+                <div
+                  class="model-filter-options"
+                  id="mortalityModelFilterOptions"
+                >
+                  <!-- Options will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="card" style="margin-bottom: 25px">
+          <h3>Mortality Model Performance Comparison</h3>
+          <div class="chart-container">
+            <canvas id="mortalityPerformanceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Results Table (Full Width) -->
+        <div class="card">
+          <h3>Mortality Detailed Results Table</h3>
+          <div class="table-container">
+            <table id="mortalityResultsTable">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Dataset</th>
+                  <th>PULSE Score</th>
+                  <th class="sorted-desc">AUROC</th>
+                  <th>AUPRC</th>
+                  <th>MCC</th>
+                  <th>Norm AUPRC</th>
+                  <th>Specificity</th>
+                  <th>F1 Score</th>
+                  <th>Accuracy</th>
+                  <th>Bal Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>Kappa</th>
+                  <th>MinPSE</th>
+                </tr>
+              </thead>
+              <tbody id="mortalityResultsTableBody">
+                <tr>
+                  <td colspan="15" class="loading">
+                    Loading mortality results...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="sepsis-tab" class="tab-content">
+        <!-- Filters -->
+        <div class="header">
+          <h2>
+            Sepsis Prediction
+            <span class="info-icon"
+              >i
+              <span class="info-tooltip">
+                Predict onset of sepsis within a defined horizon, commonly based
+                on Sepsis-3 criteria (suspected infection + organ dysfunction).
+                We can refine this to the exact dataset labeling you use.
+              </span>
+            </span>
+          </h2>
+          <div class="controls">
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Dataset</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter results by specific ICU dataset: HiRID (Swiss), eICU
+                    (US multi-center), or MIMIC-IV (US single-center).</span
+                  >
+                </span>
+              </div>
+              <select id="sepsisDatasetFilter">
+                <option value="all">All Datasets</option>
+                <option value="hirid">HiRID</option>
+                <option value="eicu">eICU</option>
+                <option value="miiv">MIMIC-IV</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Type</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Filter models by type: LLMs (Large Language Models) or
+                    traditional baseline models (CNN, LSTM, XGBoost, etc.)</span
+                  >
+                </span>
+              </div>
+              <select id="sepsisModelTypeFilter">
+                <option value="all">All Models</option>
+                <option value="llm">LLMs Only</option>
+                <option value="baseline">Baselines Only</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Show Approaches</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip">
+                    Controls how prompting approaches are displayed for LLMs.
+                    "Best Only" keeps the top approach per model based on the
+                    selected primary metric. "All Approaches" lists every tested
+                    approach. Examples include: Zero Shot, One Shot, Few Shot,
+                    Chain-of-Thought, Hybrid/Collaborative Agents, Clinical
+                    Workflow, and Categorization Summary.
+                  </span>
+                </span>
+              </div>
+              <select id="sepsisShowApproaches">
+                <option value="best">Best Only</option>
+                <option value="all">All Approaches</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Primary Metric</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select the primary metric for sorting and evaluation. AUROC
+                    and AUPRC are most commonly used for medical prediction
+                    tasks. Note: MCC values are normalized to 0-1 range.</span
+                  >
+                </span>
+              </div>
+              <select id="sepsisPrimaryMetric">
+                <option value="auroc" selected>AUROC</option>
+                <option value="auprc">AUPRC</option>
+                <option value="normalized_auprc">Normalized AUPRC</option>
+                <option value="mcc">MCC</option>
+                <option value="specificity">Specificity</option>
+                <option value="f1_score">F1 Score</option>
+                <option value="accuracy">Accuracy</option>
+                <option value="balanced_accuracy">Balanced Accuracy</option>
+                <option value="precision">Precision</option>
+                <option value="recall">Recall</option>
+                <option value="kappa">Kappa</option>
+                <option value="minpse">MinPSE</option>
+                <option value="task_dataset_score">PULSE Score</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <div class="control-group-with-info">
+                <label>Model Filter</label>
+                <span class="info-icon"
+                  >i
+                  <span class="info-tooltip"
+                    >Select specific models to display. You can choose
+                    individual models or view all models at once.</span
+                  >
+                </span>
+              </div>
+              <div class="model-filter-dropdown" id="sepsisModelFilterDropdown">
+                <div
+                  class="model-filter-button"
+                  onclick="toggleModelFilter('sepsis')"
+                >
+                  <span id="sepsisModelFilterText">All Models</span>
+                  <span class="model-filter-arrow">˅</span>
+                </div>
+                <div class="model-filter-options" id="sepsisModelFilterOptions">
+                  <!-- Options will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="card" style="margin-bottom: 25px">
+          <h3>Sepsis Model Performance Comparison</h3>
+          <div class="chart-container">
+            <canvas id="sepsisPerformanceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Results Table (Full Width) -->
+        <div class="card">
+          <h3>Sepsis Detailed Results Table</h3>
+          <div class="table-container">
+            <table id="sepsisResultsTable">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Dataset</th>
+                  <th>PULSE Score</th>
+                  <th class="sorted-desc">AUROC</th>
+                  <th>AUPRC</th>
+                  <th>MCC</th>
+                  <th>Norm AUPRC</th>
+                  <th>Specificity</th>
+                  <th>F1 Score</th>
+                  <th>Accuracy</th>
+                  <th>Bal Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>Kappa</th>
+                  <th>MinPSE</th>
+                </tr>
+              </thead>
+              <tbody id="sepsisResultsTableBody">
+                <tr>
+                  <td colspan="15" class="loading">
+                    Loading sepsis results...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      console.log("Script loaded successfully");
+      let allData = [];
+      let charts = {};
+      let currentTask = "overall";
+
+      // Baseline model identifiers
+      const baselineModels = [
+        "CNN",
+        "LSTM",
+        "GRU",
+        "XGBoost",
+        "LightGBM",
+        "RandomForest",
+        "InceptionTime",
+      ];
+
+      function isBaselineModel(modelId) {
+        return baselineModels.some((baseline) =>
+          modelId.toLowerCase().includes(baseline.toLowerCase())
+        );
+      }
+
+      function getModelType(modelId) {
+        return isBaselineModel(modelId) ? "baseline" : "llm";
+      }
+
+      // Get best prompting approach for each model based on primary metric
+      function getBestPromptingApproaches(data, primaryMetric) {
+        const modelBestApproaches = {};
+
+        // Group by model_id + task_id + dataset
+        const modelGroups = {};
+        data.forEach((d) => {
+          const key = `${d.model_id}_${d.task_id}_${d.dataset}`;
+          if (!modelGroups[key]) {
+            modelGroups[key] = [];
+          }
+          modelGroups[key].push(d);
+        });
+
+        // Find best approach for each group
+        Object.keys(modelGroups).forEach((key) => {
+          const group = modelGroups[key];
+          if (group.length <= 1) {
+            // No multiple approaches, keep as is
+            modelBestApproaches[key] = group[0];
+          } else {
+            // Find best approach by primary metric
+            let bestEntry = group[0];
+            let bestScore = bestEntry.metrics[primaryMetric] || -Infinity;
+
+            group.forEach((entry) => {
+              const score = entry.metrics[primaryMetric] || -Infinity;
+              if (score > bestScore) {
+                bestScore = score;
+                bestEntry = entry;
+              }
+            });
+
+            modelBestApproaches[key] = bestEntry;
+          }
+        });
+
+        return Object.values(modelBestApproaches);
+      }
+
+      // Format prompting approach name for display
+      function formatPromptingApproach(promptingId) {
+        if (!promptingId || promptingId === "") return "";
+
+        // Map specific prompting IDs to clean names
+        const approachMapping = {
+          hybrid_reasoning_agent_preprocessor: "Hybrid Reasoning Agent",
+          sarvari_2024_aggregation_preprocessor: "Aggregation",
+          zhu_2024b_zero_shot_preprocessor: "Zero Shot",
+          zhu_2024c_categorization_summary_agent_preprocessor: "Summary Agent",
+          liu_2023_few_shot_preprocessor: "Few Shot",
+          collaborative_reasoning_agent_preprocessor:
+            "Collaborative Reasoning Agent",
+          zhu_2024b_one_shot_preprocessor: "One Shot",
+          zhu_2024a_cot_preprocessor: "CoT",
+          clinical_workflow_agent_preprocessor: "Clinical Workflow Agent",
+          categorization_agent_preprocessor: "Categorization Agent",
+        };
+
+        return (
+          approachMapping[promptingId] ||
+          promptingId
+            .replace(/_/g, " ")
+            .replace(/preprocessor/g, "")
+            .trim()
+        );
+      }
+
+      // Descriptions shown when hovering the prompting approach text
+      const approachDescriptions = {
+        aggregation: `Compress each variable over the window with simple stats (min, max, mean) to lower tokens while keeping key signal.`,
+        "zero shot": `Raw time-series with units and reference ranges. Window and sampling are specified to the model. No examples are given.`,
+        "zero-shot": `Raw time-series with units and reference ranges. Window and sampling are specified to the model. No examples are given.`,
+        "one shot": `Raw time-series with units and reference ranges. Window and sampling are specified to the model. One example with data and label is added to the prompt to reduce ambiguity and prime the task.`,
+        "one-shot": `Raw time-series with units and reference ranges. Window and sampling are specified to the model. One example with data and label is added to the prompt to reduce ambiguity and prime the task.`,
+        "few shot": `Three compact examples to strengthen in-context learning while keeping latency and input size reasonable.`,
+        "few-shot": `Three compact examples to strengthen in-context learning while keeping latency and input size reasonable.`,
+        cot: `Explicit step-by-step instructions for reasoning, including arithmetic, common sense, and symbolic tasks before asking for the final assessment.`,
+        "chain-of-thought": `Explicit step-by-step instructions for reasoning, including arithmetic, common sense, and symbolic tasks before asking for the final assessment.`,
+        "summary agent": `First write a concise patient summary from the time‑series; then use it as context for the final classification.`,
+        "hybrid reasoning agent": `Combines a XGBoost risk signal with LLM reasoning. Top features are highlighted and assessed by the LLM. If the models disagree on the prediction, more features are added until agreement or exhaustion.`,
+        "collaborative reasoning agent": `Use multiple specialized prompts/agents to propose and cross‑check answers, then consolidate a final decision.`,
+        "clinical workflow agent": `Structure prompts to mirror clinical reasoning (Initial Assessment, Lab Ordering and Updated Assessment, Validation of Requested Tests, Final prediction) with brief checks.`,
+      };
+
+      function getApproachDescription(displayName) {
+        if (!displayName) return "";
+        const key = displayName.trim().toLowerCase();
+        if (approachDescriptions[key]) return approachDescriptions[key];
+        // common aliases
+        if (key === "co t" || key === "c o t") return approachDescriptions.cot;
+        // fallback
+        return "";
+      }
+
+      // Switch between tabs
+      function switchTab(task) {
+        // Hide all tab contents
+        document.querySelectorAll(".tab-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        // Remove active class from all tab buttons
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          button.classList.remove("active");
+        });
+
+        // Show selected tab content
+        document.getElementById(`${task}-tab`).classList.add("active");
+
+        // Add active class to selected tab button
+        event.target.classList.add("active");
+
+        currentTask = task;
+
+        // Update the current tab's content
+        updateCurrentTab();
+      }
+
+      // Load all JSON files from the jsons folder
+      async function loadAllResults() {
+        console.log("Loading all result files...");
+
+        // List of all model files based on the directory listing
+        const modelFiles = [
+          "claudesonnet4_results.json",
+          "CNN_results.json",
+          "deepseekr1llama8b_results.json",
+          "gemini2p5flash_results.json",
+          "gemini2p5pro_results.json",
+          "gemma3_results.json",
+          "gpt4o_results.json",
+          "grok4_results.json",
+          "GRU_results.json",
+          "InceptionTime_results.json",
+          "LightGBM_results.json",
+          "llama3p18b_results.json",
+          "LSTM_results.json",
+          "medgemma_results.json",
+          "mistral7b_results.json",
+          "o3_results.json",
+          "RandomForest_results.json",
+          "XGBoost_results.json",
+        ];
+
+        allData = [];
+
+        for (const fileName of modelFiles) {
+          try {
+            console.log(`Loading ${fileName}...`);
+            const response = await fetch(`jsons/${fileName}`);
+
+            if (!response.ok) {
+              console.warn(`Failed to load ${fileName}: ${response.status}`);
+              continue;
+            }
+
+            const data = await response.json();
+            console.log(`Loaded ${fileName}:`, data);
+
+            // Extract results array
+            let results = [];
+            if (Array.isArray(data)) {
+              results = data;
+            } else if (data.results && Array.isArray(data.results)) {
+              results = data.results;
+            } else {
+              console.warn(`Invalid format in ${fileName}`);
+              continue;
+            }
+
+            // Add each result to allData
+            results.forEach((result) => {
+              if (result.metrics_summary && result.metrics_summary.overall) {
+                allData.push({
+                  model_id: result.model_id,
+                  task_id: result.task_id,
+                  dataset: result.dataset,
+                  prompting_id: result.prompting_id || "",
+                  metrics: result.metrics_summary.overall,
+                  fileName: fileName,
+                });
+              }
+            });
+          } catch (error) {
+            console.error(`Error loading ${fileName}:`, error);
+          }
+        }
+
+        console.log("All data loaded:", allData);
+        console.log("Total entries:", allData.length);
+
+        // Initialize the dashboard
+        initializeDashboard();
+      }
+
+      // Load data when page loads
+      window.addEventListener("load", () => {
+        console.log("Window load event fired");
+        loadAllResults();
+      });
+
+      function initializeDashboard() {
+        console.log("Initializing dashboard with data:", allData);
+        populateModelFilters();
+        updateCurrentTab();
+        setupEventListeners();
+      }
+
+      // Global variable to store selected models for each task
+      const selectedModels = {
+        overall: ["all"],
+        aki: ["all"],
+        mortality: ["all"],
+        sepsis: ["all"],
+      };
+
+      function populateModelFilters() {
+        const models = [...new Set(allData.map((d) => d.model_id))].sort();
+
+        // Populate all model filter dropdowns
+        ["overall", "aki", "mortality", "sepsis"].forEach((task) => {
+          const optionsContainer = document.getElementById(
+            `${task}ModelFilterOptions`
+          );
+          if (optionsContainer) {
+            optionsContainer.innerHTML = "";
+
+            // Add "All Models" option
+            const allOption = document.createElement("div");
+            allOption.className = "model-filter-option all-models selected";
+            allOption.setAttribute("data-value", "all");
+            allOption.onclick = () => handleModelFilterChange(task, "all");
+            allOption.innerHTML = `
+              <span>All Models</span>
+            `;
+            optionsContainer.appendChild(allOption);
+
+            // Add individual model options
+            models.forEach((model) => {
+              const option = document.createElement("div");
+              option.className = "model-filter-option";
+              option.setAttribute("data-value", model);
+              option.onclick = () => handleModelFilterChange(task, model);
+
+              const logoUrl = getModelLogo(model);
+              const logoHtml = logoUrl
+                ? `<img src="${logoUrl}" alt="${model}" class="model-logo-small">`
+                : '<div style="width: 20px;"></div>';
+
+              option.innerHTML = `
+                ${logoHtml}
+                <span>${model}</span>
+              `;
+              optionsContainer.appendChild(option);
+            });
+          }
+        });
+      }
+
+      function toggleModelFilter(task) {
+        const dropdown = document.getElementById(`${task}ModelFilterDropdown`);
+        dropdown.classList.toggle("open");
+
+        // Close other dropdowns
+        ["overall", "aki", "mortality", "sepsis"].forEach((otherTask) => {
+          if (otherTask !== task) {
+            const otherDropdown = document.getElementById(
+              `${otherTask}ModelFilterDropdown`
+            );
+            if (otherDropdown) {
+              otherDropdown.classList.remove("open");
+            }
+          }
+        });
+      }
+
+      function handleModelFilterChange(task, value) {
+        const allOption = document.querySelector(
+          `#${task}ModelFilterOptions .model-filter-option[data-value="all"]`
+        );
+        const valueOption = document.querySelector(
+          `#${task}ModelFilterOptions .model-filter-option[data-value="${value}"]`
+        );
+
+        if (value === "all") {
+          // Select all models
+          selectedModels[task] = ["all"];
+          // Update visual state
+          const allOptions = document.querySelectorAll(
+            `#${task}ModelFilterOptions .model-filter-option`
+          );
+          allOptions.forEach((option) => option.classList.remove("selected"));
+          allOption.classList.add("selected");
+        } else {
+          if (selectedModels[task].includes("all")) {
+            // Switching from "all" to specific models
+            selectedModels[task] = [value];
+            allOption.classList.remove("selected");
+            valueOption.classList.add("selected");
+          } else {
+            // Toggle specific model
+            if (selectedModels[task].includes(value)) {
+              // Remove model from selection
+              selectedModels[task] = selectedModels[task].filter(
+                (m) => m !== value
+              );
+              valueOption.classList.remove("selected");
+
+              // If no models selected, select all
+              if (selectedModels[task].length === 0) {
+                selectedModels[task] = ["all"];
+                allOption.classList.add("selected");
+                // Remove selection from all other options
+                const allOtherOptions = document.querySelectorAll(
+                  `#${task}ModelFilterOptions .model-filter-option:not([data-value="all"])`
+                );
+                allOtherOptions.forEach((option) =>
+                  option.classList.remove("selected")
+                );
+              }
+            } else {
+              // Add model to selection
+              selectedModels[task].push(value);
+              valueOption.classList.add("selected");
+            }
+          }
+        }
+
+        updateModelFilterText(task);
+        updateCurrentTab();
+      }
+
+      function updateModelFilterText(task) {
+        const textElement = document.getElementById(`${task}ModelFilterText`);
+        if (selectedModels[task].includes("all")) {
+          textElement.textContent = "All Models";
+        } else {
+          const count = selectedModels[task].length;
+          if (count === 1) {
+            textElement.textContent = selectedModels[task][0];
+          } else {
+            textElement.textContent = `${count} models selected`;
+          }
+        }
+      }
+
+      function getSelectedModels(task) {
+        return selectedModels[task] || ["all"];
+      }
+
+      function updateCurrentTab() {
+        createPerformanceChart(currentTask);
+        updateTable(currentTask);
+      }
+
+      function getFilteredData(task) {
+        if (task === "overall") {
+          return getOverallFilteredData();
+        }
+
+        const datasetFilter = document.getElementById(
+          `${task}DatasetFilter`
+        ).value;
+        const modelTypeFilter = document.getElementById(
+          `${task}ModelTypeFilter`
+        ).value;
+        const selectedModelList = getSelectedModels(task);
+
+        return allData.filter((d) => {
+          // Filter by task
+          if (d.task_id !== task) return false;
+
+          // Filter by dataset
+          const datasetMatch =
+            datasetFilter === "all" || d.dataset === datasetFilter;
+
+          // Filter by model type
+          const modelType = getModelType(d.model_id);
+          const modelTypeMatch =
+            modelTypeFilter === "all" || modelType === modelTypeFilter;
+
+          // Filter by specific model (multiple selection)
+          const modelMatch =
+            selectedModelList.includes("all") ||
+            selectedModelList.includes(d.model_id);
+
+          return datasetMatch && modelTypeMatch && modelMatch;
+        });
+      }
+
+      function getOverallFilteredData() {
+        const modelTypeFilter = document.getElementById(
+          "overallModelTypeFilter"
+        ).value;
+        const selectedModelList = getSelectedModels("overall");
+
+        return allData.filter((d) => {
+          // Filter by model type
+          const modelType = getModelType(d.model_id);
+          const modelTypeMatch =
+            modelTypeFilter === "all" || modelType === modelTypeFilter;
+
+          // Filter by specific model (multiple selection)
+          const modelMatch =
+            selectedModelList.includes("all") ||
+            selectedModelList.includes(d.model_id);
+
+          return modelTypeMatch && modelMatch;
+        });
+      }
+
+      // Logo mapping for proprietary LLMs
+      const modelLogos = {
+        "GPT-4o": "llm_logos/Openai_logo.svg",
+        GPT4o: "llm_logos/Openai_logo.svg",
+        gpt4o: "llm_logos/Openai_logo.svg",
+        grok4: "llm_logos/Grok_logo.svg",
+        o3: "llm_logos/Openai_logo.svg",
+        O3: "llm_logos/Openai_logo.svg",
+        OpenAI: "llm_logos/Openai_logo.svg",
+        openai: "llm_logos/Openai_logo.svg",
+        Claude: "llm_logos/Claude_logo.svg",
+        claude: "llm_logos/Claude_logo.svg",
+        claudesonnet4: "llm_logos/Claude_logo.svg",
+        "claude-sonnet": "llm_logos/Claude_logo.svg",
+        Gemini: "llm_logos/Google-gemini-icon.svg",
+        gemini: "llm_logos/Google-gemini-icon.svg",
+        Gemini2p5: "llm_logos/Google-gemini-icon.svg",
+        gemini2p5: "llm_logos/Google-gemini-icon.svg",
+        Llama: "llm_logos/Meta_logo.svg",
+        llama: "llm_logos/Meta_logo.svg",
+        Llama3: "llm_logos/Meta_logo.svg",
+        llama3: "llm_logos/Meta_logo.svg",
+        Meta: "llm_logos/Meta_logo.svg",
+        meta: "llm_logos/Meta_logo.svg",
+        Mistral: "llm_logos/Mistral_AI_logo.svg",
+        mistral: "llm_logos/Mistral_AI_logo.svg",
+        Gemma: "llm_logos/Gemma_logo.svg",
+        gemma: "llm_logos/Gemma_logo.svg",
+        DeepSeek: "llm_logos/DeepSeek_logo.svg",
+        deepseek: "llm_logos/DeepSeek_logo.svg",
+      };
+
+      function getModelLogo(modelId) {
+        if (modelLogos[modelId]) return modelLogos[modelId];
+
+        const modelIdLower = modelId.toLowerCase();
+        if (modelIdLower.includes("o3")) return modelLogos["o3"];
+        if (modelIdLower.includes("deepseek")) return modelLogos["DeepSeek"];
+        if (modelIdLower.includes("gpt") || modelIdLower.includes("openai"))
+          return modelLogos["OpenAI"];
+        if (modelIdLower.includes("claude")) return modelLogos["Claude"];
+        if (modelIdLower.includes("gemini")) return modelLogos["Gemini"];
+        if (modelIdLower.includes("gemma")) return modelLogos["Gemma"];
+        if (modelIdLower.includes("grok")) return modelLogos["grok4"];
+        if (modelIdLower.includes("llama") || modelIdLower.includes("meta"))
+          return modelLogos["Llama"];
+        if (modelIdLower.includes("mistral")) return modelLogos["Mistral"];
+
+        return null;
+      }
+
+      function getModelLogoHtml(modelId) {
+        const logoUrl = getModelLogo(modelId);
+        if (logoUrl) {
+          return `<img src="${logoUrl}" alt="${modelId}" class="model-logo-small">`;
+        }
+        return '<div style="width: 20px; display: inline-block;"></div>';
+      }
+
+      async function loadImage(src) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => resolve(img);
+          img.onerror = () => resolve(null);
+          img.src = src;
+        });
+      }
+
+      async function createPerformanceChart(task) {
+        if (task === "overall") {
+          await createOverallPerformanceChart();
+          return;
+        }
+
+        const ctx = document
+          .getElementById(`${task}PerformanceChart`)
+          .getContext("2d");
+        const filteredData = getFilteredData(task);
+        const primaryMetric = document.getElementById(
+          `${task}PrimaryMetric`
+        ).value;
+
+        // Get only the best prompting approaches for chart display
+        const bestApproachData = getBestPromptingApproaches(
+          filteredData,
+          primaryMetric
+        );
+
+        // Group by model and calculate average performance
+        const modelPerformance = {};
+        bestApproachData.forEach((d) => {
+          if (!modelPerformance[d.model_id]) {
+            modelPerformance[d.model_id] = {
+              scores: [],
+              type: getModelType(d.model_id),
+            };
+          }
+          const score = d.metrics[primaryMetric];
+          if (score !== undefined) {
+            modelPerformance[d.model_id].scores.push(score);
+          }
+        });
+
+        const models = Object.keys(modelPerformance);
+        const avgScores = models.map((model) => {
+          const scores = modelPerformance[model].scores;
+          return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+        });
+
+        // Create array of model data for sorting
+        const modelData = models.map((model, index) => ({
+          model: model,
+          score: avgScores[index],
+          type: modelPerformance[model].type,
+        }));
+
+        // Sort by score descending
+        modelData.sort((a, b) => b.score - a.score);
+
+        // Extract sorted arrays
+        const sortedModels = modelData.map((d) => d.model);
+        const sortedScores = modelData.map((d) => d.score);
+        const sortedColors = modelData.map(
+          (d) =>
+            d.type === "llm"
+              ? "rgba(37, 99, 235, 0.85)" /* blue-600 */
+              : "rgba(147, 197, 253, 0.85)" /* blue-300 */
+        );
+        const sortedBorderColors = modelData.map(
+          (d) =>
+            d.type === "llm"
+              ? "rgba(29, 78, 216, 1)" /* blue-700 */
+              : "rgba(96, 165, 250, 1)" /* blue-400 */
+        );
+
+        // Load logos for models that have them
+        const modelImages = {};
+        for (const model of sortedModels) {
+          const logoUrl = getModelLogo(model);
+          if (logoUrl) {
+            modelImages[model] = await loadImage(logoUrl);
+          }
+        }
+
+        if (charts[`${task}Performance`]) {
+          charts[`${task}Performance`].destroy();
+        }
+
+        charts[`${task}Performance`] = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: sortedModels,
+            datasets: [
+              {
+                label: primaryMetric.toUpperCase(),
+                data: sortedScores,
+                backgroundColor: sortedColors,
+                borderColor: sortedBorderColors,
+                borderWidth: 2,
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                min: 0,
+                max: primaryMetric === "task_dataset_score" ? 100 : 1,
+              },
+              x: {
+                ticks: {
+                  maxRotation: 45,
+                },
+              },
+            },
+          },
+          plugins: [
+            {
+              id: "logoRenderer",
+              beforeDraw: function (chart) {
+                const ctx = chart.ctx;
+                const xAxis = chart.scales.x;
+
+                sortedModels.forEach((model, index) => {
+                  const image = modelImages[model];
+                  if (image) {
+                    const x = xAxis.getPixelForValue(index);
+                    const logoSize = 24;
+                    const datasetMeta = chart.getDatasetMeta(0);
+                    const bar = datasetMeta.data[index];
+                    const y = bar.y - logoSize - 10;
+
+                    ctx.save();
+                    ctx.globalAlpha = 0.8;
+                    ctx.drawImage(
+                      image,
+                      x - logoSize / 2,
+                      y,
+                      logoSize,
+                      logoSize
+                    );
+                    ctx.restore();
+                  }
+                });
+              },
+            },
+          ],
+        });
+      }
+
+      async function createOverallPerformanceChart() {
+        const ctx = document
+          .getElementById("overallPerformanceChart")
+          .getContext("2d");
+        const filteredData = getOverallFilteredData();
+        const primaryMetric = document.getElementById(
+          "overallPrimaryMetric"
+        ).value;
+
+        // Use the same logic as the table for determining best approaches
+        // Group by model first
+        const modelGroups = {};
+        filteredData.forEach((d) => {
+          if (!modelGroups[d.model_id]) {
+            modelGroups[d.model_id] = {};
+          }
+          if (!modelGroups[d.model_id][d.prompting_id]) {
+            modelGroups[d.model_id][d.prompting_id] = [];
+          }
+          modelGroups[d.model_id][d.prompting_id].push(d);
+        });
+
+        // Find best prompting approach for each model by averaging across all task-dataset combinations
+        const bestApproachesPerModel = {};
+        Object.keys(modelGroups).forEach((modelId) => {
+          const approaches = modelGroups[modelId];
+          let bestApproach = null;
+          let bestAvgScore = -Infinity;
+
+          Object.keys(approaches).forEach((promptingId) => {
+            const entries = approaches[promptingId];
+            // Calculate average score for this prompting approach across all task-dataset combinations
+            const scores = entries
+              .map(e => {
+                if (e.metrics_summary && e.metrics_summary.overall) {
+                  return e.metrics_summary.overall[primaryMetric];
+                } else {
+                  return e.metrics[primaryMetric];
+                }
+              })
+              .filter(s => s !== undefined);
+            
+            const avgScore = scores.length > 0 
+              ? scores.reduce((sum, val) => sum + val, 0) / scores.length 
+              : -Infinity;
+
+            if (avgScore > bestAvgScore) {
+              bestAvgScore = avgScore;
+              bestApproach = promptingId;
+            }
+          });
+
+          bestApproachesPerModel[modelId] = bestApproach;
+        });
+
+        // Filter to only include entries from the best approach for each model
+        const dataToProcess = filteredData.filter(d => 
+          bestApproachesPerModel[d.model_id] === d.prompting_id
+        );
+
+        // Group by model and calculate average performance across all tasks and datasets
+        const modelPerformance = {};
+        dataToProcess.forEach((d) => {
+          if (!modelPerformance[d.model_id]) {
+            modelPerformance[d.model_id] = {
+              scores: [],
+              type: getModelType(d.model_id),
+            };
+          }
+          const score = d.metrics[primaryMetric];
+          if (score !== undefined) {
+            modelPerformance[d.model_id].scores.push(score);
+          }
+        });
+
+        const models = Object.keys(modelPerformance);
+        const avgScores = models.map((model) => {
+          const scores = modelPerformance[model].scores;
+          return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+        });
+
+        // Create array of model data for sorting
+        const modelData = models.map((model, index) => ({
+          model: model,
+          score: avgScores[index],
+          type: modelPerformance[model].type,
+        }));
+
+        // Sort by score descending
+        modelData.sort((a, b) => b.score - a.score);
+
+        // Extract sorted arrays
+        const sortedModels = modelData.map((d) => d.model);
+        const sortedScores = modelData.map((d) => d.score);
+        const sortedColors = modelData.map((d) =>
+          d.type === "llm"
+            ? "rgba(37, 99, 235, 0.85)"
+            : "rgba(147, 197, 253, 0.85)"
+        );
+        const sortedBorderColors = modelData.map((d) =>
+          d.type === "llm" ? "rgba(29, 78, 216, 1)" : "rgba(96, 165, 250, 1)"
+        );
+
+        // Load logos for models that have them
+        const modelImages = {};
+        for (const model of sortedModels) {
+          const logoUrl = getModelLogo(model);
+          if (logoUrl) {
+            modelImages[model] = await loadImage(logoUrl);
+          }
+        }
+
+        if (charts["overallPerformance"]) {
+          charts["overallPerformance"].destroy();
+        }
+
+        charts["overallPerformance"] = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: sortedModels,
+            datasets: [
+              {
+                label: primaryMetric.toUpperCase(),
+                data: sortedScores,
+                backgroundColor: sortedColors,
+                borderColor: sortedBorderColors,
+                borderWidth: 2,
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                min: 0,
+                max: primaryMetric === "task_dataset_score" ? 100 : 1,
+              },
+              x: {
+                ticks: {
+                  maxRotation: 45,
+                },
+              },
+            },
+          },
+          plugins: [
+            {
+              id: "logoRenderer",
+              beforeDraw: function (chart) {
+                const ctx = chart.ctx;
+                const xAxis = chart.scales.x;
+
+                sortedModels.forEach((model, index) => {
+                  const image = modelImages[model];
+                  if (image) {
+                    const x = xAxis.getPixelForValue(index);
+                    const logoSize = 24;
+                    const datasetMeta = chart.getDatasetMeta(0);
+                    const bar = datasetMeta.data[index];
+                    const y = bar.y - logoSize - 10;
+
+                    ctx.save();
+                    ctx.globalAlpha = 0.8;
+                    ctx.drawImage(
+                      image,
+                      x - logoSize / 2,
+                      y,
+                      logoSize,
+                      logoSize
+                    );
+                    ctx.restore();
+                  }
+                });
+              },
+            },
+          ],
+        });
+      }
+
+      function updateTable(task) {
+        if (task === "overall") {
+          updateOverallTable();
+          return;
+        }
+
+        const filteredData = getFilteredData(task);
+        const showApproaches = document.getElementById(
+          `${task}ShowApproaches`
+        ).value;
+        const primaryMetric = document.getElementById(
+          `${task}PrimaryMetric`
+        ).value;
+        const tbody = document.getElementById(`${task}ResultsTableBody`);
+
+        if (filteredData.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="15" class="no-data">No data matches the current filters</td></tr>`;
+          return;
+        }
+
+        let dataToShow = filteredData;
+        let bestApproaches = new Set();
+
+        if (showApproaches === "best") {
+          dataToShow = getBestPromptingApproaches(filteredData, primaryMetric);
+        } else {
+          // Mark best approaches when showing all
+          const bestData = getBestPromptingApproaches(
+            filteredData,
+            primaryMetric
+          );
+          bestData.forEach((entry) => {
+            bestApproaches.add(
+              `${entry.model_id}_${entry.task_id}_${entry.dataset}_${entry.prompting_id}`
+            );
+          });
+        }
+
+        tbody.innerHTML = "";
+
+        // Sort by primary metric descending
+        dataToShow.sort((a, b) => {
+          const aScore = a.metrics[primaryMetric] || 0;
+          const bScore = b.metrics[primaryMetric] || 0;
+          return bScore - aScore;
+        });
+
+        dataToShow.forEach((d) => {
+          const metrics = d.metrics;
+          const modelType = getModelType(d.model_id);
+          const isBestApproach = bestApproaches.has(
+            `${d.model_id}_${d.task_id}_${d.dataset}_${d.prompting_id}`
+          );
+          const formattedApproach = formatPromptingApproach(d.prompting_id);
+
+          // Create model display with approach and type indicator
+          let modelDisplay = '<div class="model-display-container">';
+
+          if (formattedApproach) {
+            modelDisplay += `<div class="model-with-approach">
+              <div class="model-main-row">
+                ${getModelLogoHtml(d.model_id)}
+                <span class="model-name">${d.model_id}</span>
+                ${
+                  isBestApproach && showApproaches === "all"
+                    ? '<span class="best-approach-indicator">⭐</span>'
+                    : ""
+                }
+              </div>
+              <span class="approach-in-model approach-with-tooltip">${formattedApproach}
+                ${
+                  getApproachDescription(formattedApproach)
+                    ? `<span class="info-tooltip">${getApproachDescription(
+                        formattedApproach
+                      )}</span>`
+                    : ""
+                }
+              </span>
+            </div>`;
+          } else {
+            modelDisplay += `<div class="model-main-row">
+              ${getModelLogoHtml(d.model_id)}
+              <span class="model-name">${d.model_id}</span>
+              ${
+                isBestApproach && showApproaches === "all"
+                  ? '<span class="best-approach-indicator">⭐</span>'
+                  : ""
+              }
+            </div>`;
+          }
+          modelDisplay += "</div>";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td class="model-name-cell ${modelType}-type">${modelDisplay}</td>
+            <td>${d.dataset.toUpperCase()}</td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.task_dataset_score,
+              true
+            )}">${(metrics.task_dataset_score || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(metrics.auroc)}">${(
+            metrics.auroc || 0
+          ).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(metrics.auprc)}">${(
+            metrics.auprc || 0
+          ).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(metrics.mcc)}">${(
+            metrics.mcc || 0
+          ).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.normalized_auprc
+            )}">${(metrics.normalized_auprc || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.specificity
+            )}">${(metrics.specificity || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.f1_score
+            )}">${(metrics.f1_score || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.accuracy
+            )}">${(metrics.accuracy || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.balanced_accuracy
+            )}">${(metrics.balanced_accuracy || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              metrics.precision
+            )}">${(metrics.precision || 0).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(metrics.recall)}">${(
+            metrics.recall || 0
+          ).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(metrics.kappa)}">${(
+            metrics.kappa || 0
+          ).toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(metrics.minpse)}">${(
+            metrics.minpse || 0
+          ).toFixed(3)}</span></td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      function getApproachClass(promptingId) {
+        if (!promptingId || promptingId === "") return "approach-default";
+
+        const id = promptingId.toLowerCase();
+        if (id.includes("sarvari") || id.includes("aggregation"))
+          return "approach-sarvari";
+        if (id.includes("zhu") || id.includes("zero_shot"))
+          return "approach-zhu";
+        if (id.includes("hybrid")) return "approach-hybrid";
+        if (id.includes("one_shot")) return "approach-sarvari";
+        if (id.includes("cot")) return "approach-zhu";
+        if (id.includes("three_shot")) return "approach-hybrid";
+        if (id.includes("collaborative")) return "approach-sarvari";
+        if (id.includes("clinical_workflow")) return "approach-zhu";
+        if (id.includes("categorization")) return "approach-hybrid";
+        return "approach-default";
+      }
+
+      function updateOverallTable() {
+        const filteredData = getOverallFilteredData();
+        const showApproaches = document.getElementById("overallShowApproaches")
+          ? document.getElementById("overallShowApproaches").value
+          : "best";
+        const primaryMetric = document.getElementById(
+          "overallPrimaryMetric"
+        ).value;
+        const tbody = document.getElementById("overallResultsTableBody");
+
+        if (filteredData.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="14" class="no-data">No data matches the current filters</td></tr>`;
+          return;
+        }
+
+        let dataToProcess = filteredData;
+        let bestApproaches = new Set();
+
+        if (showApproaches === "best") {
+          // For "best only", we need to find the overall best approach per model
+          // Group by model first
+          const modelGroups = {};
+          filteredData.forEach((d) => {
+            if (!modelGroups[d.model_id]) {
+              modelGroups[d.model_id] = {};
+            }
+            if (!modelGroups[d.model_id][d.prompting_id]) {
+              modelGroups[d.model_id][d.prompting_id] = [];
+            }
+            modelGroups[d.model_id][d.prompting_id].push(d);
+          });
+
+          // Find best prompting approach for each model by averaging across all task-dataset combinations
+          const bestApproachesPerModel = {};
+          Object.keys(modelGroups).forEach((modelId) => {
+            const approaches = modelGroups[modelId];
+            let bestApproach = null;
+            let bestAvgScore = -Infinity;
+
+            Object.keys(approaches).forEach((promptingId) => {
+              const entries = approaches[promptingId];
+              // Calculate average score for this prompting approach across all task-dataset combinations
+              const scores = entries
+                .map(e => {
+                  if (e.metrics_summary && e.metrics_summary.overall) {
+                    return e.metrics_summary.overall[primaryMetric];
+                  } else {
+                    return e.metrics[primaryMetric];
+                  }
+                })
+                .filter(s => s !== undefined);
+              
+              const avgScore = scores.length > 0 
+                ? scores.reduce((sum, val) => sum + val, 0) / scores.length 
+                : -Infinity;
+
+              if (avgScore > bestAvgScore) {
+                bestAvgScore = avgScore;
+                bestApproach = promptingId;
+              }
+            });
+
+            bestApproachesPerModel[modelId] = bestApproach;
+          });
+
+          // Filter to only include entries from the best approach for each model
+          dataToProcess = filteredData.filter(d => 
+            bestApproachesPerModel[d.model_id] === d.prompting_id
+          );
+        } else {
+          // Mark best approaches when showing all
+          const bestData = getBestPromptingApproaches(
+            filteredData,
+            primaryMetric
+          );
+          bestData.forEach((entry) => {
+            bestApproaches.add(
+              `${entry.model_id}_${entry.task_id}_${entry.dataset}_${entry.prompting_id}`
+            );
+          });
+        }
+
+        // Calculate averages for each model across all tasks and datasets
+        const modelAverages = {};
+        dataToProcess.forEach((d) => {
+          const key =
+            showApproaches === "all"
+              ? `${d.model_id}_${d.prompting_id}`
+              : d.model_id;
+
+          if (!modelAverages[key]) {
+            modelAverages[key] = {
+              model_id: d.model_id,
+              prompting_id: d.prompting_id,
+              auroc: [],
+              auprc: [],
+              normalized_auprc: [],
+              mcc: [],
+              specificity: [],
+              f1_score: [],
+              accuracy: [],
+              balanced_accuracy: [],
+              precision: [],
+              recall: [],
+              kappa: [],
+              minpse: [],
+              task_dataset_score: [],
+              type: getModelType(d.model_id),
+              isBest: false,
+            };
+          }
+
+          if (d.metrics.auroc !== undefined)
+            modelAverages[key].auroc.push(d.metrics.auroc);
+          if (d.metrics.auprc !== undefined)
+            modelAverages[key].auprc.push(d.metrics.auprc);
+          if (d.metrics.normalized_auprc !== undefined)
+            modelAverages[key].normalized_auprc.push(
+              d.metrics.normalized_auprc
+            );
+          if (d.metrics.mcc !== undefined)
+            modelAverages[key].mcc.push(d.metrics.mcc);
+          if (d.metrics.specificity !== undefined)
+            modelAverages[key].specificity.push(d.metrics.specificity);
+          if (d.metrics.f1_score !== undefined)
+            modelAverages[key].f1_score.push(d.metrics.f1_score);
+          if (d.metrics.accuracy !== undefined)
+            modelAverages[key].accuracy.push(d.metrics.accuracy);
+          if (d.metrics.balanced_accuracy !== undefined)
+            modelAverages[key].balanced_accuracy.push(
+              d.metrics.balanced_accuracy
+            );
+          if (d.metrics.precision !== undefined)
+            modelAverages[key].precision.push(d.metrics.precision);
+          if (d.metrics.recall !== undefined)
+            modelAverages[key].recall.push(d.metrics.recall);
+          if (d.metrics.kappa !== undefined)
+            modelAverages[key].kappa.push(d.metrics.kappa);
+          if (d.metrics.minpse !== undefined)
+            modelAverages[key].minpse.push(d.metrics.minpse);
+          if (d.metrics.task_dataset_score !== undefined)
+            modelAverages[key].task_dataset_score.push(
+              d.metrics.task_dataset_score
+            );
+        });
+
+        // Mark best approaches for each model
+        if (showApproaches === "all") {
+          const modelGroups = {};
+          Object.keys(modelAverages).forEach((key) => {
+            const data = modelAverages[key];
+            const modelId = data.model_id;
+            if (!modelGroups[modelId]) modelGroups[modelId] = [];
+            modelGroups[modelId].push({ key, data });
+          });
+
+          Object.keys(modelGroups).forEach((modelId) => {
+            const group = modelGroups[modelId];
+            if (group.length > 1) {
+              let bestKey = null;
+              let bestScore = -Infinity;
+
+              group.forEach(({ key, data }) => {
+                const scores = data[primaryMetric] || [];
+                const avgScore =
+                  scores.length > 0
+                    ? scores.reduce((sum, val) => sum + val, 0) / scores.length
+                    : 0;
+                if (avgScore > bestScore) {
+                  bestScore = avgScore;
+                  bestKey = key;
+                }
+              });
+
+              if (bestKey) {
+                modelAverages[bestKey].isBest = true;
+              }
+            }
+          });
+        }
+
+        // Calculate averages and create table rows
+        const models = Object.keys(modelAverages);
+
+        const modelResults = models.map((key) => {
+          const data = modelAverages[key];
+          const avgAuroc =
+            data.auroc.length > 0
+              ? data.auroc.reduce((sum, val) => sum + val, 0) /
+                data.auroc.length
+              : 0;
+          const avgAuprc =
+            data.auprc.length > 0
+              ? data.auprc.reduce((sum, val) => sum + val, 0) /
+                data.auprc.length
+              : 0;
+          const avgNormAuprc =
+            data.normalized_auprc.length > 0
+              ? data.normalized_auprc.reduce((sum, val) => sum + val, 0) /
+                data.normalized_auprc.length
+              : 0;
+          const avgMcc =
+            data.mcc.length > 0
+              ? data.mcc.reduce((sum, val) => sum + val, 0) / data.mcc.length
+              : 0;
+          const avgSpecificity =
+            data.specificity.length > 0
+              ? data.specificity.reduce((sum, val) => sum + val, 0) /
+                data.specificity.length
+              : 0;
+          const avgF1 =
+            data.f1_score.length > 0
+              ? data.f1_score.reduce((sum, val) => sum + val, 0) /
+                data.f1_score.length
+              : 0;
+          const avgAccuracy =
+            data.accuracy.length > 0
+              ? data.accuracy.reduce((sum, val) => sum + val, 0) /
+                data.accuracy.length
+              : 0;
+          const avgBalAccuracy =
+            data.balanced_accuracy.length > 0
+              ? data.balanced_accuracy.reduce((sum, val) => sum + val, 0) /
+                data.balanced_accuracy.length
+              : 0;
+          const avgPrecision =
+            data.precision.length > 0
+              ? data.precision.reduce((sum, val) => sum + val, 0) /
+                data.precision.length
+              : 0;
+          const avgRecall =
+            data.recall.length > 0
+              ? data.recall.reduce((sum, val) => sum + val, 0) /
+                data.recall.length
+              : 0;
+          const avgKappa =
+            data.kappa.length > 0
+              ? data.kappa.reduce((sum, val) => sum + val, 0) /
+                data.kappa.length
+              : 0;
+          const avgMinpse =
+            data.minpse.length > 0
+              ? data.minpse.reduce((sum, val) => sum + val, 0) /
+                data.minpse.length
+              : 0;
+          const avgPulse =
+            data.task_dataset_score.length > 0
+              ? data.task_dataset_score.reduce((sum, val) => sum + val, 0) /
+                data.task_dataset_score.length
+              : 0;
+
+          const primaryScore =
+            primaryMetric === "auroc"
+              ? avgAuroc
+              : primaryMetric === "auprc"
+              ? avgAuprc
+              : primaryMetric === "normalized_auprc"
+              ? avgNormAuprc
+              : primaryMetric === "mcc"
+              ? avgMcc
+              : primaryMetric === "specificity"
+              ? avgSpecificity
+              : primaryMetric === "f1_score"
+              ? avgF1
+              : primaryMetric === "accuracy"
+              ? avgAccuracy
+              : primaryMetric === "balanced_accuracy"
+              ? avgBalAccuracy
+              : primaryMetric === "precision"
+              ? avgPrecision
+              : primaryMetric === "recall"
+              ? avgRecall
+              : primaryMetric === "kappa"
+              ? avgKappa
+              : primaryMetric === "minpse"
+              ? avgMinpse
+              : avgPulse;
+
+          return {
+            model_id: data.model_id,
+            prompting_id: data.prompting_id,
+            type: data.type,
+            isBest: data.isBest,
+            avgAuroc,
+            avgAuprc,
+            avgNormAuprc,
+            avgMcc,
+            avgSpecificity,
+            avgF1,
+            avgAccuracy,
+            avgBalAccuracy,
+            avgPrecision,
+            avgRecall,
+            avgKappa,
+            avgMinpse,
+            avgPulse,
+            primaryScore,
+          };
+        });
+
+        // Sort by primary metric descending
+        modelResults.sort((a, b) => b.primaryScore - a.primaryScore);
+
+        tbody.innerHTML = "";
+
+        modelResults.forEach((result) => {
+          const formattedApproach = formatPromptingApproach(
+            result.prompting_id
+          );
+
+          // Create model display with approach and type indicator
+          let modelDisplay = '<div class="model-display-container">';
+
+          if (formattedApproach) {
+            modelDisplay += `<div class="model-with-approach">
+              <div class="model-main-row">
+                ${getModelLogoHtml(result.model_id)}
+                <span class="model-name">${result.model_id}</span>
+                ${
+                  result.isBest && showApproaches === "all"
+                    ? '<span class="best-approach-indicator">⭐</span>'
+                    : ""
+                }
+              </div>
+              <span class="approach-in-model approach-with-tooltip">${formattedApproach}
+                ${
+                  getApproachDescription(formattedApproach)
+                    ? `<span class="info-tooltip">${getApproachDescription(
+                        formattedApproach
+                      )}</span>`
+                    : ""
+                }
+              </span>
+            </div>`;
+          } else {
+            modelDisplay += `<div class="model-main-row">
+              ${getModelLogoHtml(result.model_id)}
+              <span class="model-name">${result.model_id}</span>
+              ${
+                result.isBest && showApproaches === "all"
+                  ? '<span class="best-approach-indicator">⭐</span>'
+                  : ""
+              }
+            </div>`;
+          }
+          modelDisplay += "</div>";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td class="model-name-cell ${result.type}-type">${modelDisplay}</td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgPulse,
+              true
+            )}">${result.avgPulse.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgAuroc
+            )}">${result.avgAuroc.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgAuprc
+            )}">${result.avgAuprc.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgMcc
+            )}">${result.avgMcc.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgNormAuprc
+            )}">${result.avgNormAuprc.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgSpecificity
+            )}">${result.avgSpecificity.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgF1
+            )}">${result.avgF1.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgAccuracy
+            )}">${result.avgAccuracy.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgBalAccuracy
+            )}">${result.avgBalAccuracy.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgPrecision
+            )}">${result.avgPrecision.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgRecall
+            )}">${result.avgRecall.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgKappa
+            )}">${result.avgKappa.toFixed(3)}</span></td>
+            <td><span class="metric-value ${getMetricClass(
+              result.avgMinpse
+            )}">${result.avgMinpse.toFixed(3)}</span></td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      function getMetricClass(value, isPulseScore = false) {
+        if (isPulseScore) {
+          if (value >= 70) return "metric-high";
+          if (value >= 50) return "metric-medium";
+          return "metric-low";
+        } else {
+          if (value >= 0.8) return "metric-high";
+          if (value >= 0.6) return "metric-medium";
+          return "metric-low";
+        }
+      }
+
+      function setupEventListeners() {
+        const tasks = ["aki", "mortality", "sepsis"];
+
+        tasks.forEach((task) => {
+          [
+            `${task}DatasetFilter`,
+            `${task}ModelTypeFilter`,
+            `${task}ShowApproaches`,
+            `${task}PrimaryMetric`,
+          ].forEach((id) => {
+            document.getElementById(id).addEventListener("change", async () => {
+              if (currentTask === task) {
+                updateCurrentTab();
+              }
+            });
+          });
+        });
+
+        // Add event listeners for overall tab
+        [
+          "overallModelTypeFilter",
+          "overallShowApproaches",
+          "overallPrimaryMetric",
+        ].forEach((id) => {
+          document.getElementById(id).addEventListener("change", async () => {
+            if (currentTask === "overall") {
+              updateCurrentTab();
+            }
+          });
+        });
+
+        // Add click outside handler to close dropdowns
+        document.addEventListener("click", function (event) {
+          const isDropdownClick = event.target.closest(
+            ".model-filter-dropdown"
+          );
+          if (!isDropdownClick) {
+            ["overall", "aki", "mortality", "sepsis"].forEach((task) => {
+              const dropdown = document.getElementById(
+                `${task}ModelFilterDropdown`
+              );
+              if (dropdown) {
+                dropdown.classList.remove("open");
+              }
+            });
+          }
+        });
+
+        // Hook up table header sorting for all tables
+        enableTableSorting("overallResultsTable");
+        enableTableSorting("akiResultsTable");
+        enableTableSorting("mortalityResultsTable");
+        enableTableSorting("sepsisResultsTable");
+      }
+
+      // Enable sorting for a table by clicking on its headers
+      function enableTableSorting(tableId) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
+        const headers = table.querySelectorAll("thead th");
+        headers.forEach((th, idx) => {
+          th.addEventListener("click", () => sortTable(table, idx));
+        });
+      }
+
+      const tableSortState = {};
+
+      function sortTable(table, colIndex) {
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        if (!rows.length) return;
+
+        // Determine current direction per table+column
+        const key = `${table.id}_${colIndex}`;
+        const currentDir = tableSortState[key] || "desc"; // default desc for metrics
+        const nextDir = currentDir === "asc" ? "desc" : "asc";
+        tableSortState[key] = nextDir;
+
+        // update header arrow state
+        const headers = table.querySelectorAll("thead th");
+        headers.forEach((h, i) => {
+          h.classList.remove("sorted-asc", "sorted-desc");
+          if (i === colIndex) {
+            h.classList.add(nextDir === "asc" ? "sorted-asc" : "sorted-desc");
+          }
+        });
+
+        const isNumeric = (text) =>
+          /^-?\d+(\.\d+)?$/.test(text.replace(/[^0-9\.-]/g, ""));
+
+        const getCellValue = (tr, idx) => {
+          const cell = tr.children[idx];
+          if (!cell) return "";
+          const text = cell.textContent.trim();
+          const num = parseFloat(text);
+          return isNaN(num) ? text.toLowerCase() : num;
+        };
+
+        rows.sort((a, b) => {
+          const aVal = getCellValue(a, colIndex);
+          const bVal = getCellValue(b, colIndex);
+          const aNum = typeof aVal === "number";
+          const bNum = typeof bVal === "number";
+          let cmp = 0;
+          if (aNum && bNum) cmp = aVal - bVal;
+          else cmp = String(aVal).localeCompare(String(bVal));
+          return nextDir === "asc" ? cmp : -cmp;
+        });
+
+        // Re-append rows in sorted order
+        rows.forEach((tr) => tbody.appendChild(tr));
+      }
+    </script>
+  </body>
+</html>

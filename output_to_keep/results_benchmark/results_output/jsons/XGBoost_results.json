@@ -1,0 +1,697 @@
+{
+  "results": [
+    {
+      "model_id": "XGBoost",
+      "task_id": "aki",
+      "dataset": "eicu",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 64.415,
+          "base_score": 0.644,
+          "auroc": 0.779,
+          "auprc": 0.658,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 2.121,
+          "specificity": 0.0,
+          "f1_score": 0.473,
+          "accuracy": 0.31,
+          "balanced_accuracy": 0.5,
+          "precision": 0.31,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.593,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "aki",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "aki",
+      "dataset": "hirid",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 60.379,
+          "base_score": 0.604,
+          "auroc": 0.817,
+          "auprc": 0.498,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 3.075,
+          "specificity": 0.0,
+          "f1_score": 0.279,
+          "accuracy": 0.162,
+          "balanced_accuracy": 0.5,
+          "precision": 0.162,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.5,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "aki",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "aki",
+      "dataset": "miiv",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 63.673,
+          "base_score": 0.637,
+          "auroc": 0.799,
+          "auprc": 0.615,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 2.643,
+          "specificity": 0.0,
+          "f1_score": 0.378,
+          "accuracy": 0.233,
+          "balanced_accuracy": 0.5,
+          "precision": 0.233,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.563,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "aki",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "mortality",
+      "dataset": "eicu",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 59.362,
+          "base_score": 0.594,
+          "auroc": 0.806,
+          "auprc": 0.477,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 6.818,
+          "specificity": 0.0,
+          "f1_score": 0.131,
+          "accuracy": 0.07,
+          "balanced_accuracy": 0.5,
+          "precision": 0.07,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.429,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "mortality",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "mortality",
+      "dataset": "hirid",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 61.363,
+          "base_score": 0.614,
+          "auroc": 0.855,
+          "auprc": 0.489,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 4.449,
+          "specificity": 0.0,
+          "f1_score": 0.198,
+          "accuracy": 0.11,
+          "balanced_accuracy": 0.5,
+          "precision": 0.11,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.385,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "mortality",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "mortality",
+      "dataset": "miiv",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 61.729,
+          "base_score": 0.617,
+          "auroc": 0.835,
+          "auprc": 0.52,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 4.335,
+          "specificity": 0.0,
+          "f1_score": 0.214,
+          "accuracy": 0.12,
+          "balanced_accuracy": 0.5,
+          "precision": 0.12,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.583,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "mortality",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "sepsis",
+      "dataset": "eicu",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 36.862,
+          "base_score": 0.369,
+          "auroc": 0.546,
+          "auprc": 0.056,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 1.174,
+          "specificity": 0.0,
+          "f1_score": 0.092,
+          "accuracy": 0.048,
+          "balanced_accuracy": 0.5,
+          "precision": 0.048,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.127,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "sepsis",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "sepsis",
+      "dataset": "hirid",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 52.885,
+          "base_score": 0.529,
+          "auroc": 0.829,
+          "auprc": 0.258,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 3.425,
+          "specificity": 0.0,
+          "f1_score": 0.14,
+          "accuracy": 0.075,
+          "balanced_accuracy": 0.5,
+          "precision": 0.075,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.367,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "sepsis",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    },
+    {
+      "model_id": "XGBoost",
+      "task_id": "sepsis",
+      "dataset": "miiv",
+      "run_id": "20250618_192129",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 37.729,
+          "base_score": 0.377,
+          "auroc": 0.555,
+          "auprc": 0.073,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 2.902,
+          "specificity": 0.0,
+          "f1_score": 0.049,
+          "accuracy": 0.025,
+          "balanced_accuracy": 0.5,
+          "precision": 0.025,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.083,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "sepsis",
+          "model_name": "XGBoost",
+          "run_id": "20250618_192129"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            64.41538318494682,
+            60.37930546831346,
+            63.67271561000171
+          ],
+          "mortality": [
+            59.36164030841758,
+            61.363475016857414,
+            61.72916277247111
+          ],
+          "sepsis": [
+            36.861863859366586,
+            52.88494115663644,
+            37.72934469724768
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            64.41538318494682,
+            59.36164030841758,
+            36.861863859366586
+          ],
+          "miiv": [
+            63.67271561000171,
+            61.72916277247111,
+            37.72934469724768
+          ],
+          "hirid": [
+            60.37930546831346,
+            61.363475016857414,
+            52.88494115663644
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.37753689713986,
+          "overall_aki": 62.822468087754,
+          "overall_eicu": 53.54629578424366,
+          "overall_mortality": 60.8180926992487,
+          "overall_hirid": 58.209240547269104,
+          "overall_sepsis": 42.4920499044169,
+          "overall_miiv": 54.377074359906835
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1390 @@
+{
+  "results": [
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "aki",
+      "dataset": "eicu",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 55.036,
+          "base_score": 0.55,
+          "auroc": 0.597,
+          "auprc": 0.451,
+          "mcc_raw": 0.202,
+          "mcc": 0.601,
+          "normalized_auprc": 1.457,
+          "specificity": 0.863,
+          "f1_score": 0.382,
+          "accuracy": 0.691,
+          "balanced_accuracy": 0.586,
+          "precision": 0.503,
+          "recall": 0.308,
+          "kappa": 0.192,
+          "minpse": 0.384,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "aki",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "aki",
+      "dataset": "hirid",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 47.879,
+          "base_score": 0.479,
+          "auroc": 0.555,
+          "auprc": 0.318,
+          "mcc_raw": 0.122,
+          "mcc": 0.561,
+          "normalized_auprc": 1.965,
+          "specificity": 0.983,
+          "f1_score": 0.12,
+          "accuracy": 0.835,
+          "balanced_accuracy": 0.526,
+          "precision": 0.44,
+          "recall": 0.069,
+          "kappa": 0.079,
+          "minpse": 0.162,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "aki",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "aki",
+      "dataset": "miiv",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 54.712,
+          "base_score": 0.547,
+          "auroc": 0.588,
+          "auprc": 0.434,
+          "mcc_raw": 0.236,
+          "mcc": 0.618,
+          "normalized_auprc": 1.863,
+          "specificity": 0.921,
+          "f1_score": 0.344,
+          "accuracy": 0.767,
+          "balanced_accuracy": 0.591,
+          "precision": 0.5,
+          "recall": 0.262,
+          "kappa": 0.219,
+          "minpse": 0.314,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "aki",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "mortality",
+      "dataset": "eicu",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 55.843,
+          "base_score": 0.558,
+          "auroc": 0.698,
+          "auprc": 0.359,
+          "mcc_raw": 0.233,
+          "mcc": 0.616,
+          "normalized_auprc": 5.129,
+          "specificity": 0.806,
+          "f1_score": 0.276,
+          "accuracy": 0.79,
+          "balanced_accuracy": 0.689,
+          "precision": 0.182,
+          "recall": 0.571,
+          "kappa": 0.19,
+          "minpse": 0.429,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "mortality",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "mortality",
+      "dataset": "hirid",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 53.099,
+          "base_score": 0.531,
+          "auroc": 0.671,
+          "auprc": 0.305,
+          "mcc_raw": 0.229,
+          "mcc": 0.614,
+          "normalized_auprc": 2.772,
+          "specificity": 0.775,
+          "f1_score": 0.324,
+          "accuracy": 0.75,
+          "balanced_accuracy": 0.66,
+          "precision": 0.231,
+          "recall": 0.545,
+          "kappa": 0.201,
+          "minpse": 0.231,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "mortality",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "mortality",
+      "dataset": "miiv",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 68.926,
+          "base_score": 0.689,
+          "auroc": 0.809,
+          "auprc": 0.583,
+          "mcc_raw": 0.351,
+          "mcc": 0.676,
+          "normalized_auprc": 4.861,
+          "specificity": 0.75,
+          "f1_score": 0.419,
+          "accuracy": 0.75,
+          "balanced_accuracy": 0.75,
+          "precision": 0.29,
+          "recall": 0.75,
+          "kappa": 0.297,
+          "minpse": 0.333,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "mortality",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "sepsis",
+      "dataset": "eicu",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 35.449,
+          "base_score": 0.354,
+          "auroc": 0.543,
+          "auprc": 0.046,
+          "mcc_raw": -0.059,
+          "mcc": 0.471,
+          "normalized_auprc": 0.96,
+          "specificity": 0.807,
+          "f1_score": 0.035,
+          "accuracy": 0.772,
+          "balanced_accuracy": 0.446,
+          "precision": 0.022,
+          "recall": 0.085,
+          "kappa": -0.045,
+          "minpse": 0.057,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "sepsis",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "sepsis",
+      "dataset": "hirid",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 48.924,
+          "base_score": 0.489,
+          "auroc": 0.697,
+          "auprc": 0.154,
+          "mcc_raw": 0.227,
+          "mcc": 0.613,
+          "normalized_auprc": 2.045,
+          "specificity": 0.871,
+          "f1_score": 0.29,
+          "accuracy": 0.838,
+          "balanced_accuracy": 0.654,
+          "precision": 0.216,
+          "recall": 0.438,
+          "kappa": 0.21,
+          "minpse": 0.223,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "sepsis",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "sepsis",
+      "dataset": "miiv",
+      "run_id": "20250623_084058",
+      "prompting_id": "sarvari_2024_aggregation_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 30.189,
+          "base_score": 0.302,
+          "auroc": 0.41,
+          "auprc": 0.018,
+          "mcc_raw": -0.055,
+          "mcc": 0.473,
+          "normalized_auprc": 0.724,
+          "specificity": 0.83,
+          "f1_score": 0.011,
+          "accuracy": 0.81,
+          "balanced_accuracy": 0.435,
+          "precision": 0.006,
+          "recall": 0.04,
+          "kappa": -0.035,
+          "minpse": 0.027,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "sepsis",
+          "model_name": "GPT4o",
+          "run_id": "20250623_084058"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            55.03606229759217,
+            47.87883039932234,
+            54.71158228097745
+          ],
+          "mortality": [
+            55.842729846789275,
+            53.098774345655464,
+            68.92588685380844
+          ],
+          "sepsis": [
+            35.449179645674505,
+            48.92408838434374,
+            30.18891728203119
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            55.03606229759217,
+            55.842729846789275,
+            35.449179645674505
+          ],
+          "miiv": [
+            54.71158228097745,
+            68.92588685380844,
+            30.18891728203119
+          ],
+          "hirid": [
+            47.87883039932234,
+            53.098774345655464,
+            48.92408838434374
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 50.00622792624384,
+          "overall_aki": 52.54215832596399,
+          "overall_eicu": 48.77599059668531,
+          "overall_mortality": 59.28913034875106,
+          "overall_hirid": 49.96723104310718,
+          "overall_sepsis": 38.187395104016474,
+          "overall_miiv": 51.27546213893903
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "aki",
+      "dataset": "eicu",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 54.2,
+          "base_score": 0.542,
+          "auroc": 0.623,
+          "auprc": 0.431,
+          "mcc_raw": 0.143,
+          "mcc": 0.572,
+          "normalized_auprc": 1.39,
+          "specificity": 0.739,
+          "f1_score": 0.407,
+          "accuracy": 0.635,
+          "balanced_accuracy": 0.571,
+          "precision": 0.41,
+          "recall": 0.403,
+          "kappa": 0.143,
+          "minpse": 0.403,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "aki",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "aki",
+      "dataset": "hirid",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 47.838,
+          "base_score": 0.478,
+          "auroc": 0.605,
+          "auprc": 0.276,
+          "mcc_raw": 0.104,
+          "mcc": 0.552,
+          "normalized_auprc": 1.703,
+          "specificity": 0.923,
+          "f1_score": 0.202,
+          "accuracy": 0.799,
+          "balanced_accuracy": 0.54,
+          "precision": 0.284,
+          "recall": 0.157,
+          "kappa": 0.098,
+          "minpse": 0.228,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "aki",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "aki",
+      "dataset": "miiv",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 54.943,
+          "base_score": 0.549,
+          "auroc": 0.615,
+          "auprc": 0.437,
+          "mcc_raw": 0.19,
+          "mcc": 0.595,
+          "normalized_auprc": 1.878,
+          "specificity": 0.793,
+          "f1_score": 0.386,
+          "accuracy": 0.702,
+          "balanced_accuracy": 0.598,
+          "precision": 0.371,
+          "recall": 0.402,
+          "kappa": 0.19,
+          "minpse": 0.371,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "aki",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "mortality",
+      "dataset": "eicu",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 56.911,
+          "base_score": 0.569,
+          "auroc": 0.784,
+          "auprc": 0.39,
+          "mcc_raw": 0.068,
+          "mcc": 0.534,
+          "normalized_auprc": 5.575,
+          "specificity": 0.258,
+          "f1_score": 0.146,
+          "accuracy": 0.3,
+          "balanced_accuracy": 0.558,
+          "precision": 0.08,
+          "recall": 0.857,
+          "kappa": 0.021,
+          "minpse": 0.417,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "mortality",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "mortality",
+      "dataset": "hirid",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 51.507,
+          "base_score": 0.515,
+          "auroc": 0.666,
+          "auprc": 0.319,
+          "mcc_raw": 0.117,
+          "mcc": 0.559,
+          "normalized_auprc": 2.903,
+          "specificity": 0.112,
+          "f1_score": 0.218,
+          "accuracy": 0.21,
+          "balanced_accuracy": 0.556,
+          "precision": 0.122,
+          "recall": 1.0,
+          "kappa": 0.027,
+          "minpse": 0.273,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "mortality",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "mortality",
+      "dataset": "miiv",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 66.131,
+          "base_score": 0.661,
+          "auroc": 0.785,
+          "auprc": 0.614,
+          "mcc_raw": 0.175,
+          "mcc": 0.587,
+          "normalized_auprc": 5.115,
+          "specificity": 0.33,
+          "f1_score": 0.268,
+          "accuracy": 0.4,
+          "balanced_accuracy": 0.623,
+          "precision": 0.157,
+          "recall": 0.917,
+          "kappa": 0.08,
+          "minpse": 0.5,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "mortality",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "sepsis",
+      "dataset": "eicu",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 40.319,
+          "base_score": 0.403,
+          "auroc": 0.599,
+          "auprc": 0.059,
+          "mcc_raw": 0.095,
+          "mcc": 0.547,
+          "normalized_auprc": 1.223,
+          "specificity": 0.36,
+          "f1_score": 0.117,
+          "accuracy": 0.384,
+          "balanced_accuracy": 0.606,
+          "precision": 0.063,
+          "recall": 0.851,
+          "kappa": 0.03,
+          "minpse": 0.066,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "sepsis",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "sepsis",
+      "dataset": "hirid",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 48.99,
+          "base_score": 0.49,
+          "auroc": 0.673,
+          "auprc": 0.249,
+          "mcc_raw": 0.092,
+          "mcc": 0.546,
+          "normalized_auprc": 3.309,
+          "specificity": 0.125,
+          "f1_score": 0.155,
+          "accuracy": 0.19,
+          "balanced_accuracy": 0.556,
+          "precision": 0.084,
+          "recall": 0.986,
+          "kappa": 0.019,
+          "minpse": 0.239,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "sepsis",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    },
+    {
+      "model_id": "GPT-4o-2024-08-06",
+      "task_id": "sepsis",
+      "dataset": "miiv",
+      "run_id": "20250622_142837",
+      "prompting_id": "zhu_2024b_zero_shot_preprocessor",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 27.218,
+          "base_score": 0.272,
+          "auroc": 0.351,
+          "auprc": 0.016,
+          "mcc_raw": -0.11,
+          "mcc": 0.445,
+          "normalized_auprc": 0.624,
+          "specificity": 0.413,
+          "f1_score": 0.02,
+          "accuracy": 0.409,
+          "balanced_accuracy": 0.327,
+          "precision": 0.01,
+          "recall": 0.24,
+          "kappa": -0.03,
+          "minpse": 0.027,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "sepsis",
+          "model_name": "GPT4o",
+          "run_id": "20250622_142837"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            54.20040685246735,
+            47.838293142665904,
+            54.94295797210338
+          ],
+          "mortality": [
+            56.91095171401411,
+            51.50721006293448,
+            66.131195552849
+          ],
+          "sepsis": [
+            40.31883855578211,
+            48.99030017881808,
+            27.217934581074616
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            54.20040685246735,
+            56.91095171401411,
+            40.31883855578211
+          ],
+          "miiv": [
+            54.94295797210338,
+            66.131195552849,
+            27.217934581074616
+          ],
+          "hirid": [
+            47.838293142665904,
+            51.50721006293448,
+            48.99030017881808
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 49.784232068078786,
+          "overall_aki": 52.32721932241221,
+          "overall_eicu": 50.47673237408785,
+          "overall_mortality": 58.183119109932534,
+          "overall_hirid": 49.44526779480615,
+          "overall_sepsis": 38.842357771891606,
+          "overall_miiv": 49.43069603534233
+        }
+      }
+    }
+  ]
+}

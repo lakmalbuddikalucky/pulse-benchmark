@@ -1,0 +1,697 @@
+{
+  "results": [
+    {
+      "model_id": "LSTM",
+      "task_id": "aki",
+      "dataset": "eicu",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 40.349,
+          "base_score": 0.403,
+          "auroc": 0.41,
+          "auprc": 0.297,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 0.959,
+          "specificity": 0.0,
+          "f1_score": 0.473,
+          "accuracy": 0.31,
+          "balanced_accuracy": 0.5,
+          "precision": 0.31,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.31,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "aki",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "aki",
+      "dataset": "hirid",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 61.489,
+          "base_score": 0.615,
+          "auroc": 0.762,
+          "auprc": 0.415,
+          "mcc_raw": 0.332,
+          "mcc": 0.666,
+          "normalized_auprc": 2.561,
+          "specificity": 0.892,
+          "f1_score": 0.44,
+          "accuracy": 0.819,
+          "balanced_accuracy": 0.666,
+          "precision": 0.44,
+          "recall": 0.44,
+          "kappa": 0.332,
+          "minpse": 0.44,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "aki",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "aki",
+      "dataset": "miiv",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 66.61,
+          "base_score": 0.666,
+          "auroc": 0.809,
+          "auprc": 0.639,
+          "mcc_raw": 0.109,
+          "mcc": 0.554,
+          "normalized_auprc": 2.744,
+          "specificity": 0.049,
+          "f1_score": 0.389,
+          "accuracy": 0.27,
+          "balanced_accuracy": 0.525,
+          "precision": 0.242,
+          "recall": 1.0,
+          "kappa": 0.023,
+          "minpse": 0.571,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "aki",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "mortality",
+      "dataset": "eicu",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 68.599,
+          "base_score": 0.686,
+          "auroc": 0.845,
+          "auprc": 0.507,
+          "mcc_raw": 0.411,
+          "mcc": 0.706,
+          "normalized_auprc": 7.241,
+          "specificity": 0.989,
+          "f1_score": 0.4,
+          "accuracy": 0.94,
+          "balanced_accuracy": 0.637,
+          "precision": 0.667,
+          "recall": 0.286,
+          "kappa": 0.374,
+          "minpse": 0.429,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "mortality",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "mortality",
+      "dataset": "hirid",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 61.608,
+          "base_score": 0.616,
+          "auroc": 0.804,
+          "auprc": 0.454,
+          "mcc_raw": 0.183,
+          "mcc": 0.591,
+          "normalized_auprc": 4.124,
+          "specificity": 0.472,
+          "f1_score": 0.269,
+          "accuracy": 0.51,
+          "balanced_accuracy": 0.645,
+          "precision": 0.161,
+          "recall": 0.818,
+          "kappa": 0.104,
+          "minpse": 0.364,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "mortality",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "mortality",
+      "dataset": "miiv",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 68.745,
+          "base_score": 0.687,
+          "auroc": 0.871,
+          "auprc": 0.465,
+          "mcc_raw": 0.45,
+          "mcc": 0.725,
+          "normalized_auprc": 3.877,
+          "specificity": 0.739,
+          "f1_score": 0.478,
+          "accuracy": 0.76,
+          "balanced_accuracy": 0.828,
+          "precision": 0.324,
+          "recall": 0.917,
+          "kappa": 0.366,
+          "minpse": 0.5,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "mortality",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "sepsis",
+      "dataset": "eicu",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 42.559,
+          "base_score": 0.426,
+          "auroc": 0.698,
+          "auprc": 0.076,
+          "mcc_raw": 0.0,
+          "mcc": 0.5,
+          "normalized_auprc": 1.587,
+          "specificity": 0.0,
+          "f1_score": 0.092,
+          "accuracy": 0.048,
+          "balanced_accuracy": 0.5,
+          "precision": 0.048,
+          "recall": 1.0,
+          "kappa": 0.0,
+          "minpse": 0.1,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "eicu",
+          "task_id": "sepsis",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "sepsis",
+      "dataset": "hirid",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 45.624,
+          "base_score": 0.456,
+          "auroc": 0.615,
+          "auprc": 0.183,
+          "mcc_raw": 0.135,
+          "mcc": 0.567,
+          "normalized_auprc": 2.424,
+          "specificity": 0.789,
+          "f1_score": 0.212,
+          "accuracy": 0.762,
+          "balanced_accuracy": 0.607,
+          "precision": 0.141,
+          "recall": 0.425,
+          "kappa": 0.111,
+          "minpse": 0.185,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "hirid",
+          "task_id": "sepsis",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    },
+    {
+      "model_id": "LSTM",
+      "task_id": "sepsis",
+      "dataset": "miiv",
+      "run_id": "20250605_112438",
+      "prompting_id": "",
+      "metrics_summary": {
+        "task_dataset_scores": {
+          "pulse_score": 44.339,
+          "base_score": 0.443,
+          "auroc": 0.705,
+          "auprc": 0.095,
+          "mcc_raw": 0.056,
+          "mcc": 0.528,
+          "normalized_auprc": 3.75,
+          "specificity": 0.976,
+          "f1_score": 0.08,
+          "accuracy": 0.954,
+          "balanced_accuracy": 0.528,
+          "precision": 0.08,
+          "recall": 0.08,
+          "kappa": 0.056,
+          "minpse": 0.148,
+          "ccf": 1.0,
+          "avg_penalty": 0.0,
+          "total_penalties": 0.0,
+          "num_penalized": 0,
+          "dataset": "miiv",
+          "task_id": "sepsis",
+          "model_name": "LSTMModel",
+          "run_id": "20250605_112438"
+        },
+        "task_pulse_scores": {
+          "aki": [
+            40.349437630267936,
+            61.48853444269121,
+            66.61048822324318
+          ],
+          "mortality": [
+            68.59938702147754,
+            61.60756620144983,
+            68.74459992588781
+          ],
+          "sepsis": [
+            42.559183903440115,
+            45.62363371094236,
+            44.33919092311173
+          ]
+        },
+        "dataset_pulse_scores": {
+          "eicu": [
+            40.349437630267936,
+            68.59938702147754,
+            42.559183903440115
+          ],
+          "miiv": [
+            66.61048822324318,
+            68.74459992588781,
+            44.33919092311173
+          ],
+          "hirid": [
+            61.48853444269121,
+            61.60756620144983,
+            45.62363371094236
+          ]
+        },
+        "overall_pulse_scores": {
+          "overall_score": 55.546891331390185,
+          "overall_aki": 56.14948676540077,
+          "overall_eicu": 50.5026695183952,
+          "overall_mortality": 66.31718438293841,
+          "overall_hirid": 56.23991145169447,
+          "overall_sepsis": 44.1740028458314,
+          "overall_miiv": 59.898093024080914
+        }
+      }
+    }
+  ]
+}
