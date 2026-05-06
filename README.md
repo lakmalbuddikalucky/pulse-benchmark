@@ -1,7 +1,7 @@
 <p align="center">
   <img src="docs/logos/pulse_logo.png" alt="PULSE Logo" width="150"/>
   <img src="docs/logos/eth_logo.svg" alt="ETH Logo" width="150"/>
-  <img src="docs/logos/bmds_logo.png" alt="BMDS Logo" width="100"/>
+  <img src="docs/logos/BMDS_logo.png" alt="BMDS Logo" width="100"/>
 </p>
 
 # PULSE Benchmark
