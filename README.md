@@ -1,14 +1,12 @@
 <p align="center">
   <img src="docs/logos/pulse_logo.png" alt="PULSE Logo" width="150"/>
-  <img src="docs/logos/eth_logo.svg" alt="ETH Logo" width="150"/>
-  <img src="docs/logos/BMDS_logo.png" alt="BMDS Logo" width="100"/>
 </p>
 
 # PULSE Benchmark
 
 PULSE (_<u>P</u>redictive <u>U</u>nderstanding of <u>L</u>ife-threatening <u>S</u>ituations using <u>E</u>mbeddings_) benchmarks the predictive capabilities of Large Language Models (LLMs) using ICU time-series data.
 
-Results are hosted at https://j4nberner.github.io/pulse/
+Results are hosted at <<Anonymized>>
 
 ## Overview
 
@@ -23,7 +21,7 @@ This repository contains the implementation for predicting mortality, acute kidn
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/j4nberner/pulse.git
+   git clone https://github.com/anonymous/pulse-benchmark.git
    cd pulse
    ```
 
