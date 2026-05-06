@@ -89,7 +89,7 @@ Task Definitions are in accordance with YAIB (https://arxiv.org/abs/2306.05109).
 
 ## Results
 
-Check https://j4nberner.github.io/pulse/ for Benchmark Results.
+Check <<Anonymized>> for Benchmark Results.
 
 Each benchmark run creates an output folder with a timestamp.
 A Metric Tracker is running alongside each training / evaluation process. Predictions are tracked and evaluated of all validation and test runs and saved to a json file in the output. Metadata with prompt infos and demographic distribution is saved as csv to output folder.
